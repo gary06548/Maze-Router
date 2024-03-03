@@ -6,8 +6,8 @@ module MRA(
 	frame_id        ,	
 	net_id         	,	  
 	loc_x          	,	  
-    loc_y         	,
-	cost	 		,		
+        loc_y         	,
+	cost		,		
 	busy         	,
 
     // AXI4 IO
@@ -57,8 +57,8 @@ parameter ID_WIDTH=4, DATA_WIDTH=128, ADDR_WIDTH=32;    // DO NOT modify AXI4 Pa
 // ===============================================================
 
 // << CHIP io port with system >>
-input 			clk,rst_n;
-input 			in_valid;
+input 		clk,rst_n;
+input 		in_valid;
 input  [4:0] 	frame_id;
 input  [3:0]    net_id;     
 input  [5:0]    loc_x; 
@@ -963,41 +963,41 @@ always @(posedge clk or negedge rst_n) begin
 end
 
 always @* begin
-  	case (c_state)
-  		Idle: begin
-          if (bridge_valid) begin
-              if (mode) n_state = Wait_DRAM_r1;
-              else      n_state = Wait_DRAM_w1;
-          end
-    			else          n_state = Idle;
-      end
-  		Wait_DRAM_r1: begin
-          if (arready_m_inf)  n_state = Wait_DRAM_r2;
-          else                n_state = Wait_DRAM_r1;
-  		end
-      Wait_DRAM_r2: begin
-          if (rvalid_m_inf) begin 
-             if (rlast_m_inf) n_state = Idle;
-             else             n_state = Wait_DRAM_r2;
-          end
-          else                n_state = Wait_DRAM_r2;
-  		end
-  		Wait_DRAM_w1: begin
-          if (awready_m_inf)  n_state = Wait_DRAM_w2;
-          else                n_state = Wait_DRAM_w1;
-  		end
-  		Wait_DRAM_w2: begin
-          if (wlast_m_inf)    n_state = Wait_DRAM_w3;
-          else                n_state = Wait_DRAM_w2;
-  		end
-      Wait_DRAM_w3: begin
-          if (bvalid_m_inf)   n_state = Idle;
-          else                n_state = Wait_DRAM_w3;
-      end
-  		default: begin
-  		    n_state = Idle;
-  		end
-  	endcase
+    case (c_state)
+	Idle: begin
+            if (bridge_valid) begin
+                if (mode) n_state = Wait_DRAM_r1;
+              	else      n_state = Wait_DRAM_w1;
+            end
+    	    else          n_state = Idle;
+        end
+        Wait_DRAM_r1: begin
+    	    if (arready_m_inf)  n_state = Wait_DRAM_r2;
+	    else                n_state = Wait_DRAM_r1;
+        end
+        Wait_DRAM_r2: begin
+	    if (rvalid_m_inf) begin 
+	        if (rlast_m_inf) n_state = Idle;
+	        else             n_state = Wait_DRAM_r2;
+	    end
+	    else                n_state = Wait_DRAM_r2;
+        end
+        Wait_DRAM_w1: begin
+	    if (awready_m_inf)  n_state = Wait_DRAM_w2;
+	    else                n_state = Wait_DRAM_w1;
+        end
+        Wait_DRAM_w2: begin
+	    if (wlast_m_inf)    n_state = Wait_DRAM_w3;
+	    else                n_state = Wait_DRAM_w2;
+        end
+        Wait_DRAM_w3: begin
+	    if (bvalid_m_inf)   n_state = Idle;
+	    else                n_state = Wait_DRAM_w3;
+        end
+        default: begin
+	    n_state = Idle;
+        end
+    endcase
 end
 
 
