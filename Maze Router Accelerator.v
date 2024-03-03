@@ -793,9 +793,9 @@ always @(posedge clk or negedge rst_n) begin
             for (i=1; i<63; i=i+1) begin
                 for (j=1; j<63; j=j+1) begin 
                     if ( !(|path_map[i][j]) && (path_map[i-1][j][1] | path_map[i+1][j][1] | path_map[i][j-1][1] | path_map[i][j+1][1]) )
-            					  path_map[i][j] <= {1'b1, fill_cnt[1]};
-            				else
-            					  path_map[i][j] <= path_map[i][j];
+            		path_map[i][j] <= {1'b1, fill_cnt[1]};
+            	    else
+            		path_map[i][j] <= path_map[i][j];
                 end
             end
             
@@ -805,13 +805,13 @@ always @(posedge clk or negedge rst_n) begin
                 if ( !(|path_map[0][j]) && (path_map[0][j-1][1] | path_map[0][j+1][1] | path_map[1][j][1]) )
                     path_map[0][j] <= {1'b1, fill_cnt[1]};
                 else
-                	  path_map[0][j] <= path_map[0][j];
+                    path_map[0][j] <= path_map[0][j];
                 
                 // right boundary	
                 if ( !(|path_map[63][j]) && (path_map[63][j-1][1] | path_map[63][j+1][1] | path_map[62][j][1]) )
-                	  path_map[63][j] <= {1'b1, fill_cnt[1]};
+        	    path_map[63][j] <= {1'b1, fill_cnt[1]};
                 else
-                  	path_map[63][j] <= path_map[63][j];
+                    path_map[63][j] <= path_map[63][j];
             end
             
             for (i=1; i<63; i=i+1) begin
